@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 #### IMPORTACIONES PARA PRODUCCION
 import os
-import dj_database_url
+
 from decouple import config
 
 import cloudinary
@@ -29,7 +29,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 #SECRET_KEY = ''
-SECRET_KEY = config('SECRET_KEY')  
+SECRET_KEY = 'django-insecure-9!av8ocxogu)djo3nh8-6xt60(_q810i%%!)j)f6eco4)jss9k'
+#SECRET_KEY = config('SECRET_KEY')  
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -77,8 +78,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    ##### PARA ARCHIVOS ESTATICOS EN HEROKU
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'backpos.urls'
@@ -106,12 +105,17 @@ WSGI_APPLICATION = 'backpos.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 #'django.db.backends.mysql'
 #'django.db.backends.postgresql'
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
-}
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'baseapipos',
+        'USER': 'sysadmin',
+        'PASSWORD': 'codigo2021',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -164,12 +168,10 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #para las imagenes
-cloudinary.config(
-  cloud_name = config('CLOUDINARY_CLOUD_NAME'),  
-  api_key = config('CLOUDINARY_API_KEY'),  
-  api_secret = config('CLOUDINARY_API_SECRET')  
+cloudinary.config( 
+  cloud_name = "solinsoft", 
+  api_key = "599129267623282", 
+  api_secret = "AmZ-QOj_bbnviDwa3UBJBY-HloY" 
 )
 
 CORS_ORIGIN_ALLOW_ALL = True
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
